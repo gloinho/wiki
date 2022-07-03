@@ -1,0 +1,18 @@
+{% extends "encyclopedia/layout.html" %}
+{% load markdownify %}
+
+{% block title %}
+{{title}}
+{% endblock %} 
+
+{% block form%}
+<form action="">
+    <input class="search" type="text" name="q" placeholder="Search Encyclopedia">
+</form>
+{% endblock %} 
+
+{% block body %}
+
+    {{content|markdownify}} 
+
+{% endblock %}

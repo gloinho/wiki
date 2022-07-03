@@ -1,0 +1,17 @@
+{% extends "encyclopedia/layout.html" %}
+{% load markdownify %}
+
+{% block title %}
+Page not Found
+{% endblock %} 
+
+{% block form%}
+<form action="">
+    <input class="search" type="text" name="q" placeholder="Search Encyclopedia">
+</form>
+{% endblock %} 
+
+{% block body %}
+    <h1 style="text-align:center">404</h1>
+    <h3 style="text-align:center">Page not Found</h3>
+{% endblock %}
