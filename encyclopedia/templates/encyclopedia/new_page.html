@@ -11,20 +11,20 @@
 {% endblock %} 
 
 {% block body %}
+    {% if not error %}
     <h1>Create a New Page</h1>
     <form action="{% url 'new_page' %}" method="POST">
         {% csrf_token %}
         {{ new_page }}
-        {% if not error %}
+
         <input type="submit" class="btn btn-primary" style="margin-top:20px">
-        {% endif %}
     </form>
+    {% endif %}
+
     <h2>{{error}}</h2>
 
-
-
-
-
-
+    {%if error%}
+    <a href="{% url 'new_page' %}">Try creating a different page!</a>
+    {% endif %}
 
 {% endblock %}

@@ -1,19 +1,16 @@
 {% extends "encyclopedia/layout.html" %}
-{% load markdownify %}
 
 {% block title %}
-{{title}}
-{% endblock %} 
+    Edit Page
+{% endblock %}
 
 {% block form%}
-<form action="">
+<form action="wiki">
     <input class="search" type="text" name="q" placeholder="Search Encyclopedia">
 </form>
 {% endblock %} 
 
 {% block body %}
-
-    {{content|markdownify}}
-    <a href="{% url 'edit_page' title %}">Edit Page</a>
-
+    <h1>{{page}}</h1>
+    {{edit}}
 {% endblock %}

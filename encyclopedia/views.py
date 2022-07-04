@@ -60,7 +60,7 @@ def new_page(request):
                 with open(os.path.join('.\entries', document) , 'x') as new_file:
                     for line in content:
                         new_file.write(line)
-                return HttpResponseRedirect(reverse('index'))
+                return HttpResponseRedirect(f'wiki/{title}')
             except FileExistsError:
                 error = f'The page {title} already exists.'
                 return render (request, 'encyclopedia/new_page.html',{
@@ -71,4 +71,18 @@ def new_page(request):
             'new_page':NewPage()
         })
 
+class EditPage(forms.Form):
+    edit = forms.CharField(widget=forms.Textarea(attrs={'class':'form-control  col-sm-10'}))
+
+def edit_page(request, page):
+    data = {'edit': ''}
+    with open(os.path.join('.\entries',f'{page}.md')) as editing_page:
+        for line in editing_page.readlines():
+            data['edit'] += line
+        edit = EditPage(data)
+
+    return render(request, 'encyclopedia/edit_page.html', {
+        'edit':edit,
+        'page':page,
+    })
 
