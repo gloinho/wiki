@@ -4,6 +4,7 @@ from . import util
 from django import forms
 import os
 from django.urls import reverse
+from random import randint
 
 
 
@@ -18,9 +19,9 @@ def entry(request, entry):
     entries = [e.lower() for e in util.list_entries()] # lista de entries lowercase
     if content:
         title = util.list_entries()[entries.index(entry)]
-        return render(request, 'encyclopedia/entry.html', {
+        return render(request, 'encyclopedia/wiki.html', {
             'content': content,
-            'title':title
+            'title':title,
         })
     else:
         return render(request, './encyclopedia/error404.html')
@@ -94,4 +95,11 @@ def edit_page(request, page):
             return HttpResponseRedirect(f'/wiki/{page}')
         
         
+def random_page(request):
+    entries = util.list_entries()
+    random_entry = entries[randint(0, len(entries) - 1)]
+    return HttpResponseRedirect(f'/wiki/{random_entry}')
+    
+    
+
 
