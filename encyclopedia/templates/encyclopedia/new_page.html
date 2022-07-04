@@ -1,0 +1,30 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+    New Page
+{% endblock %}
+
+{% block form%}
+<form action="wiki">
+    <input class="search" type="text" name="q" placeholder="Search Encyclopedia">
+</form>
+{% endblock %} 
+
+{% block body %}
+    <h1>Create a New Page</h1>
+    <form action="{% url 'new_page' %}" method="POST">
+        {% csrf_token %}
+        {{ new_page }}
+        {% if not error %}
+        <input type="submit" class="btn btn-primary" style="margin-top:20px">
+        {% endif %}
+    </form>
+    <h2>{{error}}</h2>
+
+
+
+
+
+
+
+{% endblock %}

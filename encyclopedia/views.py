@@ -1,7 +1,11 @@
-from django.http import HttpResponse
+from msilib.schema import File
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from . import util
-from django.core.files.storage import default_storage
+from django import forms
+import os
+from django.urls import reverse
+
 
 
 def index(request):
@@ -31,7 +35,7 @@ def search_entry(request):
     if not content:
         for e in entries:
             if query in e:
-                list_close_entries.append(e)
+                list_close_entries.append(util.list_entries()[entries.index(e)])
         if not list_close_entries:
             return entry(request, query) 
         else:
@@ -41,31 +45,30 @@ def search_entry(request):
     else:
         return entry(request, query) 
 
+class NewPage(forms.Form):
+    title = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control col-sm-10', 'placeholder':'Put a nice title!'}))
+    content = forms.CharField(widget=forms.Textarea(attrs={'class':'form-control  col-sm-10', 'placeholder':'Type your content in MarkDown!'}))
 
-""" def close_entry_search(request, query):
-    query = query.lower()
-    entries = [e.lower() for e in util.list_entries()] # lista de entries lowercase
-    content = util.get_entry(query)
-    list_close_entries = []
-    if not content:
-        for entry in entries:
-            if query in entry:
-                list_close_entries.append(entry)
-        if not list_close_entries:
-            return False
-        else:
-                return render(request, 'encyclopedia/close_search.html', {
-                'close_entries': list_close_entries
-            })
+def new_page(request):
+    if request.method == 'POST':
+        form = NewPage(request.POST)
+        if form.is_valid():
+            title = form.cleaned_data['title']
+            content = form.cleaned_data['content']
+            try:
+                document = title+'.md'
+                with open(os.path.join('.\entries', document) , 'x') as new_file:
+                    for line in content:
+                        new_file.write(line)
+                return HttpResponseRedirect(reverse('index'))
+            except FileExistsError:
+                error = f'The page {title} already exists.'
+                return render (request, 'encyclopedia/new_page.html',{
+                    'error': error,
+                })
     else:
-        return entry(request, query) """
-
-            
-
-
-        
-
-
-
+        return render(request, 'encyclopedia/new_page.html', {
+            'new_page':NewPage()
+        })
 
 
