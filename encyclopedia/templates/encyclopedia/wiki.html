@@ -12,8 +12,18 @@
 {% endblock %} 
 
 {% block body %}
+    {%if close_entries%}
+        <h1>All Pages Found</h1>
 
-    {{content|markdownify}}
-    <a href="{% url 'edit_page' title %}">Edit Page</a>
+        <ul>
+            {% for entry in close_entries %}
+                <li><a href="{% url 'wiki' entry %}">{{ entry }}</a></li>
+            {% endfor %}
+        </ul>
+    {%endif%}
+    {%if not close_entries%}
+        {{content|markdownify}}
+        <a href="{% url 'edit_page' title %}">Edit Page</a>
+    {%endif%}
 
 {% endblock %}

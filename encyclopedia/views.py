@@ -14,9 +14,9 @@ def index(request):
     })
 
 def entry(request, entry):
-    entry = entry.lower() # uma unica entry
-    content = util.get_entry(entry) # lista de entries
-    entries = [e.lower() for e in util.list_entries()] # lista de entries lowercase
+    entry = entry.lower() 
+    content = util.get_entry(entry) # the entry content
+    entries = [e.lower() for e in util.list_entries()] # lowered case entries list
     if content:
         title = util.list_entries()[entries.index(entry)]
         return render(request, 'encyclopedia/wiki.html', {
@@ -37,13 +37,13 @@ def search_entry(request):
             if query in e:
                 list_close_entries.append(util.list_entries()[entries.index(e)])
         if not list_close_entries:
-            return entry(request, query) 
+            return entry(request, query) # Return error404
         else:
-                return render(request, 'encyclopedia/close_search.html', {
+                return render(request, 'encyclopedia/wiki.html', {
                 'close_entries': list_close_entries
             })
     else:
-        return entry(request, query) 
+        return entry(request, query) # Return the searched page
 
 class NewPage(forms.Form):
     title = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control col-sm-10', 'placeholder':'Put a nice title!'}))
