@@ -1,4 +1,3 @@
-from msilib.schema import File
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from . import util
@@ -75,14 +74,24 @@ class EditPage(forms.Form):
     edit = forms.CharField(widget=forms.Textarea(attrs={'class':'form-control  col-sm-10'}))
 
 def edit_page(request, page):
-    data = {'edit': ''}
-    with open(os.path.join('.\entries',f'{page}.md')) as editing_page:
+    data = {'edit':''}
+    with open(os.path.join('.\entries',f'{page}.md'), 'r', encoding='utf-8') as editing_page:
         for line in editing_page.readlines():
-            data['edit'] += line
+                data['edit'] += line
         edit = EditPage(data)
+    if request.method == 'GET':
+        return render(request, 'encyclopedia/edit_page.html', {
+            'edit':edit,
+            'page':page,
+        })
+    elif request.method == 'POST':
+        form = EditPage(request.POST)
+        if form.is_valid():
+            content = form.cleaned_data['edit']
+            with open(os.path.join('.\entries',f'{page}.md'), 'w', encoding='utf-8') as edited_page:
+                edited_page.write(content) # FIXME ta duplicando o \n
 
-    return render(request, 'encyclopedia/edit_page.html', {
-        'edit':edit,
-        'page':page,
-    })
+            return HttpResponseRedirect(f'/wiki/{page}')
+        
+        
 

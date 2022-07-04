@@ -12,5 +12,10 @@
 
 {% block body %}
     <h1>{{page}}</h1>
-    {{edit}}
+    <form action="{% url 'edit_page' page %}" method="POST">
+        {%csrf_token%}
+        {{edit}}
+        <input type="submit" value="Save modifications" >  
+    </form>
+
 {% endblock %}
