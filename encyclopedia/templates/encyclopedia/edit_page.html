@@ -4,12 +4,6 @@
     Edit Page
 {% endblock %}
 
-{% block form%}
-<form action="../wiki">
-    <input class="search" type="text" name="q" placeholder="Search Encyclopedia">
-</form>
-{% endblock %} 
-
 {% block body %}
     <h1>{{page}}</h1>
     <form action="{% url 'edit_page' page %}" method="POST">
