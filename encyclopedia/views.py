@@ -5,6 +5,7 @@ from django import forms
 import os
 from django.urls import reverse
 from random import randint
+import re
 
 
 
@@ -17,11 +18,17 @@ def entry(request, entry):
     entry = entry.lower() 
     content = util.get_entry(entry) # the entry content
     entries = [e.lower() for e in util.list_entries()] # lowered case entries list
+    newtitle = False # check if the user put a title # title on the markdown content
     if content:
-        title = util.list_entries()[entries.index(entry)]
+        if content[0] == '#':
+            newtitle = True
+            title = re.search(r"\s\w+\s", content).group()
+        else:
+            title = util.list_entries()[entries.index(entry)]
         return render(request, 'encyclopedia/wiki.html', {
             'content': content,
             'title':title,
+            'newtitle':newtitle
         })
     else:
         return render(request, './encyclopedia/error404.html')

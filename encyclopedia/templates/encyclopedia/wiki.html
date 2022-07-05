@@ -22,6 +22,10 @@
         </ul>
     {%endif%}
     {%if not close_entries%}
+        {% if not newtitle%}
+            <!-- Even if the user don't put a # title in the markdown, only the title, the title will appear -->
+            <h1>{{title}}</h1> 
+        {%endif%}
         {{content|markdownify}}
         <a href="{% url 'edit_page' title %}">Edit Page</a>
     {%endif%}
