@@ -23,7 +23,7 @@
     {%endif%}
     {%if not close_entries%}
         {% if not newtitle%}
-            <!-- Even if the user don't put a # title in the markdown, only the title, the title will appear -->
+            <!-- Even if the user don't put a (# title) in the markdown when creating a page, only the title input, the title will appear -->
             <h1>{{title}}</h1> 
         {%endif%}
         {{content|markdownify}}

@@ -21,14 +21,12 @@ def entry(request, entry):
     newtitle = False # check if the user put a title # title on the markdown content
     if content:
         if content[0] == '#':
-            newtitle = True
-            title = re.search(r"\s\w+\s", content).group()
-        else:
-            title = util.list_entries()[entries.index(entry)]
+            newtitle = re.search("\s(\w+)\s", content).group() 
+        title = util.list_entries()[entries.index(entry)]
         return render(request, 'encyclopedia/wiki.html', {
             'content': content,
             'title':title,
-            'newtitle':newtitle
+            'newtitle':newtitle,
         })
     else:
         return render(request, './encyclopedia/error404.html')
