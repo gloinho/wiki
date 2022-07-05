@@ -96,8 +96,8 @@ def edit_page(request, page):
         form = EditPage(request.POST)
         if form.is_valid():
             content = form.cleaned_data['edit']
-            with open(os.path.join('.\entries',f'{page}.md'), 'w', encoding='utf-8') as edited_page:
-                edited_page.write(content) # FIXME \n is duplicating!
+            with open(os.path.join('.\entries',f'{page}.md'), 'wb') as edited_page:
+                edited_page.write(bytes(content, 'utf8')) 
 
             return HttpResponseRedirect(f'/wiki/{page}')
         
