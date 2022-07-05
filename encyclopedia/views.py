@@ -90,7 +90,7 @@ def edit_page(request, page):
         if form.is_valid():
             content = form.cleaned_data['edit']
             with open(os.path.join('.\entries',f'{page}.md'), 'w', encoding='utf-8') as edited_page:
-                edited_page.write(content) # FIXME ta duplicando o \n
+                edited_page.write(content) # FIXME \n is duplicating!
 
             return HttpResponseRedirect(f'/wiki/{page}')
         
