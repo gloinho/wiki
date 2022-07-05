@@ -29,7 +29,9 @@ def entry(request, entry):
             'newtitle':newtitle,
         })
     else:
-        return render(request, './encyclopedia/error404.html')
+        return render(request, './encyclopedia/error404.html', {
+            'entry': entry
+        })
     
 def search_entry(request):
     query_list = request.GET

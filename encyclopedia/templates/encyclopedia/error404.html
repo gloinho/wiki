@@ -12,6 +12,13 @@ Page not Found
 {% endblock %} 
 
 {% block body %}
-    <h1 style="text-align:center">404</h1>
-    <h3 style="text-align:center">Page not Found</h3>
+    <div class="alert alert-warning" role="alert" style="text-align:center">
+        <h1 style="padding:0">404</h1>
+        <h3 style="padding:0">Page not Found</h3>
+    </div>
+
+    <div style="text-align:center; margin-top:30px">
+        <a class="alert alert-info" role="alert" href="{%url 'new_page' %}">Try creating a new "{{entry}}" page!</a>
+    </div>
+
 {% endblock %}
